@@ -7,8 +7,8 @@
                     @if ($comment->user->google_id)
                         <img class="img-fluid" src="{{ $comment->user->img }}" width="50"
                             alt="{{ $comment->user->img }}" />
-                    @endif
-                    <img class="img-fluid" src="{{ asset('dashboard/assets/img/avatar/' . $comment->user->img) }}"
+                    @else
+                        <img class="img-fluid" src="{{ asset('dashboard/assets/img/avatar/' . $comment->user->img) }}"
                         width="50" alt="{{ $comment->user->img }}" />
                 @endif
             @else
