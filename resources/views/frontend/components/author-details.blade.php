@@ -10,7 +10,7 @@
                         $user_img = asset('dashboard/assets/img/avatar/' . Auth::user()->img);
                     }
                 @endphp
-                <img src="$user_img" class="img-fluid rounded-circle me-3" width="120"
+                <img src="{{ $user_img }}" class="img-fluid rounded-circle me-3" width="120"
                     alt="{{ $singleBlog->user->img }}">
             @else
                 <img src="{{ asset('dashboard/assets/img/avatar/avatar-1.png') }}" class="img-fluid rounded-circle me-3"
