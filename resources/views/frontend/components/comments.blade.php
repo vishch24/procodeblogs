@@ -10,6 +10,7 @@
                     @else
                         <img class="img-fluid" src="{{ asset('dashboard/assets/img/avatar/' . $comment->user->img) }}"
                         width="50" alt="{{ $comment->user->img }}" />
+                    @endif
                 @endif
             @else
                 <img class="img-fluid" src="{{ asset('dashboard/assets/img/avatar/avatar-1.png') }}" width="50"
