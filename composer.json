@@ -70,7 +70,55 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "policy": {
+        "advisories": {
+            "ignore-id": [
+                "PKSA-y2cr-5h3j-g3ys",
+                "PKSA-gcrk-3vtt-1r14",
+                "PKSA-cnw1-2ytm-cgr8",
+                "PKSA-fy2t-3c5f-827y",
+                "PKSA-qxvb-2bpp-dnk6",
+                "PKSA-bbs6-q5q9-f3t4",
+                "PKSA-bcdd-5xc7-gwfb",
+                "PKSA-pwsk-hy21-4gby",
+                "PKSA-93qv-9n9h-6k6p",
+                "PKSA-k22t-f949-t9g6",
+                "PKSA-vznr-tgp9-fd7d",
+                "PKSA-7qs6-zvnz-h66r",
+                "PKSA-gm5x-j3mz-71n9",
+                "PKSA-jj5t-2zs1-dcfm",
+                "PKSA-m5cs-t1y6-qpcs",
+                "PKSA-3r5d-mb8f-1qw9",
+                "PKSA-mdq4-51ck-6kdq",
+                "PKSA-5mzr-szzf-z6cn",
+                "PKSA-cqd6-fg4n-nxpf",
+                "PKSA-1q6p-sqkj-8mmj",
+                "PKSA-mc58-w91n-f5gv",
+                "PKSA-t21r-vtr5-3mdz",
+                "PKSA-scnn-p8mm-jbft",
+                "PKSA-21fb-n1x5-5nf7",
+                "PKSA-2cx9-ynrq-qdk3",
+                "PKSA-432p-hv1d-chf7",
+                "PKSA-smrh-yx37-92ws",
+                "PKSA-zh4j-by9m-7mz8",
+                "PKSA-km2b-zc3b-mjm3",
+                "PKSA-z3gr-8qht-p93v",
+                "PKSA-4s4z-t146-6123",
+                "PKSA-y6py-qpv1-h52p",
+                "PKSA-28rh-rzzn-djk4",
+                "PKSA-wtxr-p26d-nn42",
+                "PKSA-2n2k-66v2-bwg3",
+                "PKSA-dwsq-ppd2-mb1x",
+                "PKSA-rkkf-636k-qjb3",
+                "PKSA-bf7t-jnpz-492k",
+                "PKSA-yc7t-91v9-99xs",
+                "PKSA-v5yj-8nmz-sk2q",
+                "PKSA-ft77-7h5f-p3r6",
+                "PKSA-b14r-zh1d-vdrc"
+            ]
         }
+    }
     },
     "minimum-stability": "stable",
     "prefer-stable": true
