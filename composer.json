@@ -13,14 +13,13 @@
         "laravel/framework": "^11.31",
         "laravel/socialite": "^5.23",
         "laravel/tinker": "^2.9",
-        "tonysm/globalid-laravel": "*",
         "tonysm/rich-text-laravel": "^3.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.3",
         "laravel/pail": "^1.1",
-        "laravel/pint": "^1.25",
+        "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
@@ -71,15 +70,6 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        },
-        "policy": {
-            "advisories": {
-                "ignore-id": [
-                    "PKSA-m5cs-t1y6-qpcs",
-                    "PKSA-3r5d-mb8f-1qw9",
-                    "PKSA-mdq4-51ck-6kdq"
-                ]
-            }
         }
     },
     "minimum-stability": "stable",
