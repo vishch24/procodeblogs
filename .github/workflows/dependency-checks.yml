@@ -29,7 +29,7 @@ jobs:
 
       - name: Upload Report to Artifacts
         if: always() # Ensures report uploads even if tests fail
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dependency-scan-report
           path: reports/dependency-report.txt
