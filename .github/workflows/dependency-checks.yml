@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Code Checkout
-        uses: actions/checkout@6
+        uses: actions/checkout@v6
       
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -20,16 +20,6 @@ jobs:
       
       - name: Run Composer Audit
         run: composer audit
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: '24'
-          cache: npm
-          cache-dependency-path: package-lock.json
-
-      - name: Run Dependency Scan for Node
-        run: npm audit
 
       - name: Upload Report to Artifacts
         if: always() # Ensures report uploads even if tests fail

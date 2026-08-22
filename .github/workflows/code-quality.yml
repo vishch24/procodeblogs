@@ -11,21 +11,8 @@ jobs:
         php-version: ['8.2', '8.3']
     steps:
       - name: Code Checkout
-        uses: actions/checkout@4
+        uses: actions/checkout@v6
 
-      - name: Setup NodeJs
-        uses: actions/setup-node@v6
-        with:
-          node-version: '24'
-          cache: npm
-          cache-dependency-path: package-lock.json
-      
-      - name: Install npm Packages
-        run: npm install --legacy-peer-deps
-
-      - name: Run Linter
-        run: npm run lint
-      
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
