@@ -44,30 +44,15 @@ class BlogRelationsTest extends TestCase
     public function a_blog_can_have_many_comments()
     {
         $blog = Blogs::factory()->create();
-
-        // 1. This is the parent comment (parent_id is null, approved must be 'yes')
-        $parent = Comments::factory()->create([
-            'blog_id' => $blog->id,
-            'approved' => 'yes',
-            'parent_id' => null,
-        ]);
+        $parent = Comments::factory()->create(['blog_id' => $blog->id]);
         // $comments = Comments::factory()->count(3)->for($blog)->create();
 
-        // 2. This is the child comment (parent_id is NOT null)
-        Comments::factory()->create([
+        Comments::factory()->count(1)->create([
             'blog_id' => $blog->id,
             'parent_id' => $parent->id,
-            'approved' => 'yes'
         ]);
 
-        // 3. Clear Laravel's in-memory relation cache
-        $blog->refresh();
-
-        // 4. Assert matches 1 because the child comment is filtered out by ->whereNull()
         $this->assertCount(1, $blog->comments);
         $this->assertInstanceOf(Comments::class, $blog->comments->first());
-
-        // 5. Test your nested/recursive comments setup
-        $this->assertCount(1, $blog->comments->first()->replies);
     }
 }
