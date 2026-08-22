@@ -6,6 +6,9 @@ on:
 jobs:
   composer-audit:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.3', '8.4']
     steps:
       - name: Code Checkout
         uses: actions/checkout@v6
@@ -13,13 +16,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: ${{ matrix.php-version }}
       
       - name: Install dependencies
         run: composer install --no-interaction
       
       - name: Run Composer Audit
-        run: composer audit
+        run: |
+          mkdir -p reports
+          composer audit > reports/dependency-report.txt
 
       - name: Upload Report to Artifacts
         if: always() # Ensures report uploads even if tests fail
