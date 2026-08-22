@@ -19,7 +19,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
       
       - name: Install dependencies
-        run: composer install --no-dev --no-interaction
+        run: composer install --no-interaction
       
       - name: Run Pint
         run: ./vendor/bin/pint --test
