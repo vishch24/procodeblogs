@@ -18,6 +18,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: xdebug
       
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
