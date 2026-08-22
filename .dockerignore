@@ -1,2 +1,53 @@
-vendor/
-node_modules/
+# Version control
+.git
+.gitignore
+
+# Dependencies (Docker will install its own)
+/vendor/
+/node_modules/
+npm-debug.log
+yarn-error.log
+.Dockerfile.swp
+
+# Environment variables & secrets (Pass these at runtime)
+.env
+.env.backup
+.env.production
+.env.local
+*.pem
+*.key
+
+# Compiled frontend assets (Docker builds these in Stage 1)
+/public/build/
+/public/hot
+
+# Laravel Caches & Logs
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+
+# IDEs and local editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Docker files
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# Database dumps
+*.sql
+db.sql
