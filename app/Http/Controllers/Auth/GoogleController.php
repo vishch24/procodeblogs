@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
@@ -21,14 +21,14 @@ class GoogleController extends Controller
         // Check if user already exists
         $user = User::where('google_id', $googleUser->getId())->orWhere('email', $googleUser->getEmail())->first();
 
-        if (!$user) {
+        if (! $user) {
             $user = User::create([
                 'google_id' => $googleUser->getId(),
-                'name'      => $googleUser->getName(),
-                'img'    => $googleUser->getAvatar(),
-                'email'     => $googleUser->getEmail(),
+                'name' => $googleUser->getName(),
+                'img' => $googleUser->getAvatar(),
+                'email' => $googleUser->getEmail(),
                 'email_verified_at' => now(),
-                'password'  => bcrypt(str()->random(16)), // random password
+                'password' => bcrypt(str()->random(16)), // random password
             ]);
         } else {
             // Existing user found → link Google account

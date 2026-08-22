@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Auth\GooglePasswordResetController;
-use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\GooglePasswordResetController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BlogController::class, 'index'])->name('home');
@@ -101,4 +101,4 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

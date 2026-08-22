@@ -2,11 +2,10 @@
 
 namespace Tests\Feature\Auth\Google;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
 class GoogleResetPasswordTest extends TestCase
 {
@@ -15,8 +14,8 @@ class GoogleResetPasswordTest extends TestCase
     public function test_google_password_resets_successfully()
     {
         $user = User::factory()->create([
-            'email'      => 'test@example.com',
-            'google_id'  => 'google123'
+            'email' => 'test@example.com',
+            'google_id' => 'google123',
         ]);
 
         $this->actingAs($user);
@@ -24,10 +23,10 @@ class GoogleResetPasswordTest extends TestCase
         $token = Password::createToken($user);
 
         $response = $this->post('/dashboard/google/reset-password', [
-            'token'                 => $token,
-            'email'                 => $user->email,
-            'password'              => 'newpassword123',
-            'password_confirmation' => 'newpassword123'
+            'token' => $token,
+            'email' => $user->email,
+            'password' => 'newpassword123',
+            'password_confirmation' => 'newpassword123',
         ]);
 
         $response->assertRedirect(route('author.profile.edit'));

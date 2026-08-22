@@ -28,7 +28,7 @@ class RegistrationTest extends TestCase
             'x_twitter' => null,
             'facebook' => null,
             'instagram' => null,
-            'linkedin' => null
+            'linkedin' => null,
         ]);
 
         $this->assertAuthenticated();

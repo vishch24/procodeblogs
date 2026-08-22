@@ -8,11 +8,14 @@ use Illuminate\View\Component;
 
 class DeleteRecordModal extends Component
 {
-    public $title, $url;
+    public $title;
+
+    public $url;
+
     /**
      * Create a new component instance.
      */
-    public function __construct($title='', $url= '')
+    public function __construct($title = '', $url = '')
     {
         $this->title = $title;
         $this->url = $url;

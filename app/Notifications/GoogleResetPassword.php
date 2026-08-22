@@ -3,13 +3,13 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class GoogleResetPassword extends Notification
 {
     use Queueable;
+
     public $token;
 
     /**
@@ -36,7 +36,7 @@ class GoogleResetPassword extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         // 🔥 Differentiate Google vs Normal User
-        if (!empty($notifiable->google_id)) {
+        if (! empty($notifiable->google_id)) {
             $resetUrl = route('author.profile.google.reset.password', [$this->token]);
         } else {
             // Default Laravel reset URL

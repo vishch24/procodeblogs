@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Auth\Google;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class GoogleResetPasswordFormTest extends TestCase
 {
@@ -13,7 +13,7 @@ class GoogleResetPasswordFormTest extends TestCase
     public function test_google_reset_password_form_displays_for_google_user()
     {
         $user = User::factory()->create([
-            'google_id' => 'google1'
+            'google_id' => 'google1',
         ]);
 
         $this->actingAs($user);

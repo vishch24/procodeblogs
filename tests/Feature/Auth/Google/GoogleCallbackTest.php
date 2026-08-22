@@ -2,11 +2,10 @@
 
 namespace Tests\Feature\Auth\Google;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Socialite\Facades\Socialite;
-use Mockery;
+use Tests\TestCase;
 
 class GoogleCallbackTest extends TestCase
 {
@@ -36,7 +35,7 @@ class GoogleCallbackTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'google_id' => 'google123',
-            'email'     => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
 
         $response->assertRedirect(route('author.dashboard'));

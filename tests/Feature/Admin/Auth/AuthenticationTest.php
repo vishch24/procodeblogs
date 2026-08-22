@@ -4,7 +4,6 @@ namespace Tests\Feature\Admin\Auth;
 
 use App\Models\Admin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -23,7 +22,7 @@ class AuthenticationTest extends TestCase
     {
         $admin = Admin::factory()->create([
             'email' => 'admin@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
         ]);
 
         $response = $this->post('/admin/login', [
@@ -39,7 +38,7 @@ class AuthenticationTest extends TestCase
     {
         $admin = Admin::factory()->create([
             'email' => 'admin@example.com',
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
         ]);
 
         $response = $this->post('/admin/login', [
@@ -62,7 +61,7 @@ class AuthenticationTest extends TestCase
         $admin = Admin::factory()->create();
 
         $response = $this->actingAs($admin, 'admin')
-                         ->get('/admin/dashboard');
+            ->get('/admin/dashboard');
 
         $response->assertStatus(200);
     }
@@ -72,7 +71,7 @@ class AuthenticationTest extends TestCase
         $admin = Admin::factory()->create();
 
         $response = $this->actingAs($admin, 'admin')
-                         ->post('/admin/logout');
+            ->post('/admin/logout');
 
         $this->assertGuest('admin');
         $response->assertRedirect(route('admin.login'));

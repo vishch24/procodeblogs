@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Auth\Google;
 
-use Tests\TestCase;
 use App\Models\User;
+use App\Notifications\GoogleResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\GoogleResetPassword;
+use Tests\TestCase;
 
 class GoogleSendResetLinkTest extends TestCase
 {
@@ -18,13 +18,13 @@ class GoogleSendResetLinkTest extends TestCase
 
         $user = User::factory()->create([
             'email' => 'test@example.com',
-            'google_id' => 'g123'
+            'google_id' => 'g123',
         ]);
 
         $this->actingAs($user);
 
         $response = $this->post('/dashboard/google/send-reset-link', [
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
 
         $response->assertSessionHas('success');

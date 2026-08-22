@@ -12,6 +12,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     protected $pageName;
+
     public function __construct()
     {
         $this->pageName = '';

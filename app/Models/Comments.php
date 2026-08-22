@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Comments extends Model
 {
@@ -17,7 +17,7 @@ class Comments extends Model
         'email',
         'description',
         'parent_id',
-        'approved'
+        'approved',
     ];
 
     protected static function newFactory()

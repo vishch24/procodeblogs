@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Auth\Google;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Socialite\Facades\Socialite;
 use Mockery;
+use Tests\TestCase;
 
 class GoogleLinkExistingUserTest extends TestCase
 {
@@ -15,9 +15,9 @@ class GoogleLinkExistingUserTest extends TestCase
     public function test_existing_user_links_google_account()
     {
         $user = User::factory()->create([
-            'email'     => 'test@example.com',
+            'email' => 'test@example.com',
             'google_id' => null,
-            'img'       => null,
+            'img' => null,
         ]);
 
         $googleUser = Mockery::mock(\Laravel\Socialite\Two\User::class);
@@ -31,9 +31,9 @@ class GoogleLinkExistingUserTest extends TestCase
         $response = $this->get('/auth/google/callback');
 
         $this->assertDatabaseHas('users', [
-            'id'        => $user->id,
+            'id' => $user->id,
             'google_id' => 'google999',
-            'img'       => 'profile.jpg',
+            'img' => 'profile.jpg',
         ]);
 
         $response->assertRedirect(route('author.dashboard'));

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->enum('approved',['yes','no'])->default('no')->after('description');
+            $table->enum('approved', ['yes', 'no'])->default('no')->after('description');
         });
     }
 

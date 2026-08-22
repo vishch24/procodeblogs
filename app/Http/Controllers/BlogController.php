@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Blogs;
 use App\Models\Categories;
-use App\Models\Tags;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Comments;
+use App\Models\Tags;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
 {
@@ -19,7 +19,7 @@ class BlogController extends Controller
     {
         $this->pageName = '';
         view()->share([
-            'pageName' =>  $this->pageName,
+            'pageName' => $this->pageName,
             'sideRecentPosts' => Blogs::orderby('updated_at', 'desc')->take(5)->get(),
             'sideCat' => Categories::get(),
             'sideTag' => Tags::get(),
@@ -34,8 +34,8 @@ class BlogController extends Controller
         $featuredBlog = Blogs::orderBy('updated_at', 'desc')->first();
 
         // If there are no blogs at all
-        if (!$featuredBlog) {
-            return view("frontend.index", [
+        if (! $featuredBlog) {
+            return view('frontend.index', [
                 'pageName' => 'home',
                 'sideRecentPosts' => 0,
                 'sideCat' => 0,
@@ -43,7 +43,7 @@ class BlogController extends Controller
                 'featuredBlog' => null,
                 'blogs' => collect(), // empty collection to avoid errors in foreach
                 'totalPages' => 0,
-                'currentPage' => 1
+                'currentPage' => 1,
             ]);
         }
 
@@ -76,12 +76,12 @@ class BlogController extends Controller
         $remainingBlogs = $totalBlogs - 4; // Excluding the first 4 shown on page 1
         $totalPages = 1 + ceil($remainingBlogs / 6); // First page has 4, rest have 6
 
-        return view("frontend.index", [
+        return view('frontend.index', [
             'pageName' => 'home',
             'featuredBlog' => $featuredBlog,
             'blogs' => $blogs,
             'totalPages' => $totalPages,
-            'currentPage' => $currentPage
+            'currentPage' => $currentPage,
         ]);
         // }
 
@@ -91,11 +91,11 @@ class BlogController extends Controller
     {
         $blog = Blogs::where('id', $id)->where('slug', $slug)->first();
 
-        if (!$blog) {
+        if (! $blog) {
             abort(404);
         }
 
-        return view("frontend.single-blog", [
+        return view('frontend.single-blog', [
             // 'pageName' => 'home',
             'singleBlog' => $blog,
         ]);
@@ -108,7 +108,7 @@ class BlogController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'description' => 'required|string',
-            'parent_id' => 'nullable|exists:comments,id'
+            'parent_id' => 'nullable|exists:comments,id',
         ]);
 
         if ($validator->fails()) {
@@ -168,7 +168,7 @@ class BlogController extends Controller
         // Paginate the blogs associated with this category
         $blogs = $category->blogs()->paginate(6);  // Adjust the number 6 as per your requirements
 
-        return view("frontend.category-single", [
+        return view('frontend.category-single', [
             // 'pageName' => 'home',
             'category' => $category,
             'blogs' => $blogs,  // Pass the paginated blogs to the view
@@ -183,7 +183,7 @@ class BlogController extends Controller
         // Paginate the blogs associated with this tag
         $blogs = $tag->blogs()->paginate(6);  // Adjust the number 6 as per your requirements
 
-        return view("frontend.tag-single", [
+        return view('frontend.tag-single', [
             // 'pageName' => 'home',
             'tag' => $tag,
             'blogs' => $blogs,  // Pass the paginated blogs to the view

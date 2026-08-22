@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class GooglePasswordResetController extends Controller
 {
@@ -14,7 +14,7 @@ class GooglePasswordResetController extends Controller
     public function googleSendResetLink(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email'
+            'email' => 'required|email|exists:users,email',
         ]);
 
         $status = Password::sendResetLink(
@@ -29,24 +29,25 @@ class GooglePasswordResetController extends Controller
     // Show form where user sets new password
     public function showGoogleResetForm($token)
     {
-        if(Auth::user()->google_id)
+        if (Auth::user()->google_id) {
             return view('author.profile.google-reset-password', ['token' => $token, 'pageName' => '']);
-        else
+        } else {
             return redirect()->route('author.profile.edit');
+        }
     }
 
     // Handle password update
     public function googleResetPassword(Request $request)
     {
         $request->validate([
-            'token'    => 'required',
-            'email'    => 'required|email|exists:users,email',
+            'token' => 'required',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|min:8|confirmed',
         ]);
 
         $status = Password::reset(
-            $request->only('email','password','password_confirmation','token'),
-            function($user, $password) {
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
                 $user->forceFill([
                     'password' => Hash::make($password),
                 ])->save();

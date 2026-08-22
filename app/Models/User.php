@@ -3,19 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\GoogleResetPassword;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyTrait;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Notifications\GoogleResetPassword;
+
 // use Illuminate\Auth\MustVerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, MustVerifyTrait;
+    use HasFactory, MustVerifyTrait, Notifiable;
 
     public function sendPasswordResetNotification($token)
     {
