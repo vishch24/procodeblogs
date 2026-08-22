@@ -10,15 +10,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "firebase/php-jwt": "^7.0",
         "laravel/framework": "^12.0",
-        "laravel/socialite": "^5.23",
+        "laravel/socialite": "^5.30",
         "laravel/tinker": "^2.9",
-        "tonysm/rich-text-laravel": "^3.2",
         "symfony/clock": "^7.0",
         "symfony/css-selector": "^7.0",
         "symfony/event-dispatcher": "^7.0",
         "symfony/string": "^7.0",
-        "symfony/translation": "^7.0"
+        "symfony/translation": "^7.0",
+        "tonysm/rich-text-laravel": "^3.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -28,7 +29,10 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0.1"
+        "phpseclib/phpseclib": "^3.0.56",
+        "phpunit/php-code-coverage": "^12.5",
+        "phpunit/phpunit": "^12.5.8",
+        "psy/psysh": "^0.12.19"
     },
     "autoload": {
         "psr-4": {
