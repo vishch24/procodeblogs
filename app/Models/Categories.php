@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\CategoriesFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +14,7 @@ class Categories extends Model
 
     protected static function newFactory()
     {
-        return \Database\Factories\CategoriesFactory::new();
+        return CategoriesFactory::new();
     }
 
     public function blogs()

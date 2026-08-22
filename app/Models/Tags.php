@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\TagsFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +14,7 @@ class Tags extends Model
 
     protected static function newFactory()
     {
-        return \Database\Factories\TagsFactory::new();
+        return TagsFactory::new();
     }
 
     public function blogs()

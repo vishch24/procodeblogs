@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Blogs;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BlogHomePageTest extends TestCase
@@ -13,7 +14,7 @@ class BlogHomePageTest extends TestCase
      */
     use RefreshDatabase;
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function it_shows_message_when_no_blogs_exist(): void
     {
         $response = $this->get('/');
@@ -22,7 +23,7 @@ class BlogHomePageTest extends TestCase
         $response->assertSee('No blogs have been added yet.');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function it_shows_featured_and_regular_blogs_when_available()
     {
         // Create some fake blogs

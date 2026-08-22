@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\CommentsFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +23,7 @@ class Comments extends Model
 
     protected static function newFactory()
     {
-        return \Database\Factories\CommentsFactory::new();
+        return CommentsFactory::new();
     }
 
     // Relationship with Blog

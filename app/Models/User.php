@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\GoogleResetPassword;
+use Database\Factories\UserFactory;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyTrait;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +16,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, MustVerifyTrait, Notifiable;
 
     public function sendPasswordResetNotification($token)
@@ -24,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->notify(new GoogleResetPassword($token));
         } else {
             // Normal user → Laravel default reset email
-            $this->notify(new \Illuminate\Auth\Notifications\ResetPassword($token));
+            $this->notify(new ResetPassword($token));
         }
     }
 

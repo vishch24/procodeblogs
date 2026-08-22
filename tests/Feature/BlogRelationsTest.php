@@ -7,6 +7,7 @@ use App\Models\Categories;
 use App\Models\Comments;
 use App\Models\Tags;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BlogRelationsTest extends TestCase
@@ -16,7 +17,7 @@ class BlogRelationsTest extends TestCase
     /**
      * A basic feature test example.
      */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function a_blog_belongs_to_multiple_categories()
     {
         $category = Categories::factory()->count(3)->create();
@@ -28,7 +29,7 @@ class BlogRelationsTest extends TestCase
         $this->assertCount(3, $blog->categories);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function a_blog_can_have_multiple_tags()
     {
         $blog = Blogs::factory()->create();
@@ -40,7 +41,7 @@ class BlogRelationsTest extends TestCase
         $this->assertInstanceOf(Tags::class, $blog->tags->first());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function a_blog_can_have_many_comments()
     {
         $blog = Blogs::factory()->create();
