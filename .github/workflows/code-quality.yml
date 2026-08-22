@@ -1,0 +1,38 @@
+name: Code Quality
+
+on:
+  workflow_call:
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.3']
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@6
+
+      - name: Setup NodeJs
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: package-lock.json
+      
+      - name: Install npm Packages
+        run: npm install --legacy-peer-deps
+
+      - name: Run Linter
+        run: npm run lint
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+      
+      - name: Install dependencies
+        run: composer install --no-dev --no-interaction
+      
+      - name: Run Pint
+        run: ./vendor/bin/pint --test

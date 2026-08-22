@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  code-quality:
+    uses: ./.github/workflows/code-quality.yml
+
+  secret-scanning:
+    uses: ./.github/workflows/secret-scanning.yml
+
+  dependency-checks:
+    uses: ./.github/workflows/dependency-checks.yml
+
+  code-tests:
+    uses: ./.github/workflows/code-tests.yml

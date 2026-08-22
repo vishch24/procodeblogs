@@ -1,0 +1,40 @@
+name: Dependency Checks
+
+on:
+  workflow_call:
+
+jobs:
+  composer-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@6
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      
+      - name: Install dependencies
+        run: composer install --no-interaction
+      
+      - name: Run Composer Audit
+        run: composer audit
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Run Dependency Scan for Node
+        run: npm audit
+
+      - name: Upload Report to Artifacts
+        if: always() # Ensures report uploads even if tests fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-scan-report
+          path: reports/dependency-report.txt
+          retention-days: 5
