@@ -26,6 +26,9 @@ jobs:
       
       - name: Install dependencies
         run: composer install --no-interaction
+
+      - name: Publish package assets
+        run: php artisan vendor:publish --tag=rich-text-laravel-assets
       
       - name: Generate application key
         run: php artisan key:generate
