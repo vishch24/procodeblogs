@@ -1,0 +1,93 @@
+name: procodeblogs-app
+
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      # 1. Mount the Nginx config file
+      - ./conf/nginx/nginx-site.conf:/etc/nginx/conf.d/default.conf:ro
+      # 2. Share the public folder so Nginx can serve static assets (CSS/JS)
+      - public-data:/var/www/public:ro
+    networks:
+      - procodeblogs-network
+    restart: always
+    depends_on:
+      php-fpm:
+        condition: service_healthy # Wait for php-fpm health check
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: production # Use the 'production' stage in the Dockerfile
+    env_file: .env
+    environment:
+      # Pass database credentials from environment variables
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    volumes:
+      - procodeblogs-storage:/var/www/storage
+      # Mount the volume here so Docker copies the built files into it for Nginx
+      - public-data:/var/www/public
+    networks:
+      - procodeblogs-network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - procodeblogs-network
+
+  redis:
+    image: redis:alpine
+    restart: always # Automatically restart unless the service is explicitly stopped
+    networks:
+      - procodeblogs-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  procodeblogs-storage:
+  public-data:
+  mysql-data:
+
+networks:
+  procodeblogs-network:
