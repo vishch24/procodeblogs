@@ -13,7 +13,12 @@
         "laravel/framework": "^12.0",
         "laravel/socialite": "^5.23",
         "laravel/tinker": "^2.9",
-        "tonysm/rich-text-laravel": "^3.2"
+        "tonysm/rich-text-laravel": "^3.2",
+        "symfony/clock": "^7.0",
+        "symfony/css-selector": "^7.0",
+        "symfony/event-dispatcher": "^7.0",
+        "symfony/string": "^7.0",
+        "symfony/translation": "^7.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
