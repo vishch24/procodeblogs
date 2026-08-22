@@ -6850,7 +6850,7 @@
             },
             "require-dev": {
                 "laravel/framework": "^10.24|^11.0|^12.0|^13.0",
-                "laravel/pint": "^1.13",
+                "laravel/pint": "^1.25",
                 "orchestra/testbench-core": "^8.13|^9.17|^10.8|^11.0",
                 "pestphp/pest": "^2.20|^3.0|^4.0",
                 "pestphp/pest-plugin-type-coverage": "^2.3|^3.0|^4.0",
