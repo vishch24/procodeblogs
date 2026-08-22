@@ -16,7 +16,7 @@ RUN npm run build
 # ==========================================
 # Stage 2: Backend build & Composer (PHP Alpine)
 # ==========================================
-FROM php:8.2-fpm-alpine AS builder
+FROM php:8.3-fpm-alpine AS builder
 
 # Install build dependencies using Alpine's 'apk'
 RUN apk add --no-cache \
@@ -52,7 +52,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # ==========================================
 # Stage 3: Minimal Production Runtime (PHP Alpine)
 # ==========================================
-FROM php:8.2-fpm-alpine AS production
+FROM php:8.3-fpm-alpine AS production
 
 # Install ONLY the runtime libraries needed for the compiled extensions
 RUN apk add --no-cache \
