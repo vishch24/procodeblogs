@@ -13,6 +13,7 @@
         "laravel/framework": "^11.31",
         "laravel/socialite": "^5.23",
         "laravel/tinker": "^2.9",
+        "tonysm/globalid-laravel": "*",
         "tonysm/rich-text-laravel": "^3.2"
     },
     "require-dev": {
@@ -70,6 +71,15 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "policy": {
+            "advisories": {
+                "ignore-id": [
+                    "PKSA-m5cs-t1y6-qpcs",
+                    "PKSA-3r5d-mb8f-1qw9",
+                    "PKSA-mdq4-51ck-6kdq"
+                ]
+            }
         }
     },
     "minimum-stability": "stable",
