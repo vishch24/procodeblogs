@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f5088608504fb149fbf49408da65b59",
+    "content-hash": "ecb286768e2efde6d6386a4b86286d8a",
     "packages": [
         {
             "name": "brick/math",
@@ -8877,28 +8877,28 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v8.1.5",
+            "version": "v7.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "b3fc9e8888eeb9daddc33bfbd15d282a61f543cd"
+                "reference": "0b040d7b66ceb10b7bb24c8e6656257932693a12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/b3fc9e8888eeb9daddc33bfbd15d282a61f543cd",
-                "reference": "b3fc9e8888eeb9daddc33bfbd15d282a61f543cd",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/0b040d7b66ceb10b7bb24c8e6656257932693a12",
+                "reference": "0b040d7b66ceb10b7bb24c8e6656257932693a12",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4.1",
+                "php": ">=8.2",
+                "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
-                "symfony/console": "<7.4"
+                "symfony/console": "<6.4"
             },
             "require-dev": {
-                "symfony/console": "^7.4|^8.0",
-                "yaml/yaml-test-suite": "*"
+                "symfony/console": "^6.4|^7.0|^8.0"
             },
             "bin": [
                 "Resources/bin/yaml-lint"
@@ -8929,7 +8929,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v8.1.5"
+                "source": "https://github.com/symfony/yaml/tree/v7.4.17"
             },
             "funding": [
                 {
@@ -8949,7 +8949,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-21T12:16:08+00:00"
+            "time": "2026-08-21T12:09:28+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -9011,5 +9011,8 @@
         "php": "^8.2"
     },
     "platform-dev": {},
+    "platform-overrides": {
+        "php": "8.3.0"
+    },
     "plugin-api-version": "2.6.0"
 }
