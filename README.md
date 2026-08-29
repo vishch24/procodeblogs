@@ -1,169 +1,192 @@
 # 📝 ProCodeBlogs
 
-A full-stack blogging platform built with **Laravel 11**, featuring rich-text editing, Google OAuth, email verification, author-managed posts, and a threaded comment system — all wrapped in a responsive Bootstrap UI.
+A containerized full-stack blogging platform built with **Laravel 11** and **PHP 8.2**, featuring rich-text editing, Google OAuth, author management, and a threaded comment system. Packaged with a production-ready **Docker** environment and automated with **GitHub Actions** CI/CD workflows.
 
-[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat&logo=php&logoColor=white)](https://php.net)
-[![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=flat&logo=laravel&logoColor=white)](https://laravel.com)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.3-7952B3?style=flat&logo=bootstrap&logoColor=white)](https://getbootstrap.com)
-[![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![PHP 8.2+](https://img.shields.io/badge/PHP-8.2+-777BB4?logo=php&logoColor=white)](https://php.net/)
+[![Laravel 11](https://img.shields.io/badge/Laravel-11.x-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
+[![Bootstrap 5](https://img.shields.io/badge/Bootstrap-5.3.3-7952B3?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/vishch24/procodeblogs?tab=MIT-1-ov-file)
 
 ---
 
-## ✨ Features
+## ⚡ Key Engineering & DevOps Impact
 
-- **Rich Text Editor** — Trix-powered editor (via `tonysm/rich-text-laravel`) supporting formatted blog posts with images, links, and headings. Even code!
-- **Google OAuth** — One-click sign-in with Google via Laravel Socialite
-- **User Authentication** — Full auth scaffolding with Laravel Breeze (register, login, password reset)
-- **Email Verification** — Users must verify their email address before accessing the platform after registration
-- **Author Registration** — Dedicated author role with the ability to publish and manage their own blog posts
-- **Threaded Comments** — Both authors and readers can post comments on blogs, with nested reply-to support
-- **Blog Management** — Create, edit, and delete blog posts with slug-based routing
-- **Responsive UI** — Mobile-first design built with Bootstrap 5.3.3 and Alpine.js
-- **Asset Bundling** — Vite for fast frontend builds with HMR in development
-- **Database Sessions & Cache** — Session and cache handled via database driver for reliability
+* **Containerized Architecture:** Fully dockerized application environment using a multi-stage `Dockerfile` and `docker-compose.yml`, orchestrating PHP 8.3 FPM, custom Nginx routing (`conf/nginx`), and MySQL services for exact dev-to-prod environment parity.
+* **Hardened Security & CVE Remediation:** Upgraded base runtime to PHP 8.3, patched upstream operating system CVEs, and resolved dependency vulnerabilities across `composer.lock` and `package-lock.json`.
+* **Automated CI/CD Workflows:** Integrated GitHub Actions pipelines (`.github/workflows`) automating lint checks, dependency validation, static analysis, and PHPUnit test execution across every push and pull request.
+* **Predictable Production Deployments:** Standardized startup routine via `start.sh` managing automated migrations, storage symlinks, asset publishing, and cache warmups across 40+ production deployment iterations.
+
+---
+
+## 📁 Repository Structure
+
+```text
+procodeblogs/
+├── .github/workflows/    # GitHub Actions CI/CD workflows
+├── conf/nginx/           # Custom Nginx reverse proxy configuration
+├── app/
+│   ├── Http/Controllers/ # Application controllers & business logic
+│   ├── Models/           # Eloquent data models
+│   └── Providers/        # Service providers
+├── database/
+│   ├── migrations/       # Schema definitions
+│   └── seeders/          # Database seeders
+├── resources/
+│   ├── views/            # Blade templates
+│   ├── css/              # Bootstrap styling assets
+│   └── js/               # Alpine.js script bundles
+├── routes/
+│   └── web.php           # Application route definitions
+├── Dockerfile            # Multi-stage production container build
+├── docker-compose.yml    # Service orchestration (App, Nginx, MySQL)
+├── start.sh              # Container bootstrap and migration script
+└── tests/                # PHPUnit test suite
+
+```
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Backend Framework | Laravel 11 (PHP 8.2+) |
-| Frontend Styling | Bootstrap 5.3.3, Alpine.js 3.x |
-| Templating | Blade |
-| Rich Text | Trix Editor + `tonysm/rich-text-laravel` |
-| Auth / OAuth | Laravel Breeze + Laravel Socialite (Google) |
-| Database | MySQL |
-| Asset Pipeline | Vite 6 + Laravel Vite Plugin |
-| Testing | PHPUnit 11 |
-| Dev Tooling | Laravel Sail, Pint, Pail |
+| Layer | Technologies |
+| --- | --- |
+| **Backend** | Laravel 11, PHP 8.3, Eloquent ORM |
+| **Frontend** | Blade, Bootstrap 5.3.3, Alpine.js 3.x, Vite 6 |
+| **Rich Text** | Trix Editor (`tonysm/rich-text-laravel`) |
+| **Auth & Security** | Laravel Breeze, Laravel Socialite (Google OAuth 2.0), Email Verification |
+| **Database & Cache** | MySQL 8.0, Database-driven Sessions & Caches |
+| **DevOps & Containers** | Docker, Docker Compose, Nginx (Alpine-based FastCGI proxy) |
+| **CI/CD & Testing** | GitHub Actions, PHPUnit 11 |
 
 ---
 
-## 🚀 Getting Started
+## ✨ Application Features
+
+* **Rich Text Publishing:** Trix-based editor supporting embedded images, code blocks, custom formatting, and clean attachment handling.
+* **Dual Authentication:** Standard credential-based auth scaffolding (with mandatory email verification) alongside one-click Google OAuth 2.0 integration.
+* **Role-Based Access Control (RBAC):** Distinct reader and author permissions with private post-management dashboards.
+* **Threaded Commenting Engine:** Self-referential comment architecture supporting multi-level nested replies across articles.
+* **SEO-Friendly Routing:** Dynamic slug-based post resolution with cached database reads.
+
+---
+
+## 🚀 Quickstart with Docker
 
 ### Prerequisites
 
-- PHP 8.2+
-- Composer
-- Node.js 18+ & npm
-- MySQL
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Engine 24.0+ / Compose v2+)
+* [Git](https://git-scm.com/install/)
 
-### Installation
+### 1. Clone & Configure
 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/vishch24/procodeblogs.git
 cd procodeblogs
+cp .env.example .env
 
-# 2. Install PHP dependencies
+```
+
+Update your `.env` with database and OAuth credentials:
+
+```dotenv
+APP_NAME=ProCodeBlogs
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+# Docker Database Configuration
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=procodeblogs
+DB_USERNAME=procode_user
+DB_PASSWORD=secret_password
+
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback
+
+```
+
+### 2. Build & Launch Containers
+
+```bash
+docker compose up -d --build
+
+```
+
+### 3. Initialize Application
+
+```bash
+# Generate key and run migrations inside the app container
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate --seed
+docker compose exec app php artisan storage:link
+
+```
+
+Access the application at `http://localhost:8000`.
+
+---
+
+## 💻 Local Development (Without Docker)
+
+```bash
+# 1. Install dependencies
 composer install
-
-# 3. Install Node dependencies
 npm install
 
-# 4. Set up environment
+# 2. Setup environment & key
 cp .env.example .env
 php artisan key:generate
 
-# 5. Configure your database in .env
-DB_DATABASE=procodeblogs
-DB_USERNAME=root
-DB_PASSWORD=your_password
-
-# 6. Run migrations
+# 3. Database migrations & symlink
 php artisan migrate
-
-# 7. Create storage symlink
 php artisan storage:link
 
-# 8. Start the development server
-composer run dev
-```
+# 4. Compile assets & start development server
+npm run build
+php artisan serve
 
-The application will be available at `http://localhost:8000`.
-
-### Environment Variables
-
-Key variables to configure in `.env`:
-
-```env
-# App
-APP_NAME=ProCodeBlogs
-APP_URL=http://localhost
-
-# Database
-DB_CONNECTION=mysql
-DB_DATABASE=procodeblogs
-
-# Mail (required for email verification)
-MAIL_MAILER=smtp
-MAIL_HOST=your_mail_host
-MAIL_PORT=587
-MAIL_USERNAME=your_mail_username
-MAIL_PASSWORD=your_mail_password
-MAIL_FROM_ADDRESS=hello@procodeblogs.com
-
-# Google OAuth
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback
 ```
 
 ---
 
-## 📁 Project Structure
+## 🔄 CI/CD Pipeline Overview
+
+The project uses GitHub Actions workflows defined in `.github/workflows/` to enforce software quality gates:
 
 ```
-procodeblogs/
-├── app/
-│   ├── Http/Controllers/     # Request handling & business logic
-│   ├── Models/               # Eloquent models
-│   └── Providers/            # Service providers
-├── database/
-│   ├── migrations/           # Schema definitions
-│   └── seeders/              # Database seeders
-├── resources/
-│   ├── views/                # Blade templates
-│   ├── css/                  # Styles
-│   └── js/                   # Alpine.js components
-├── routes/
-│   └── web.php               # Application routes
-└── tests/                    # PHPUnit test suite
+[ Push ] 
+   │
+   ├──> Code Quality & Linting Checks (`pint`)
+   ├──> Secret Scanning (`gitleaks`)
+   ├──> Dependency Vulnerability Audit (`composer audit`)
+   └──> Unit & Feature Test Suite Execution (`phpunit`)
+
 ```
 
 ---
 
 ## 🧪 Running Tests
 
+Execute unit and feature tests locally or inside the Docker container:
+
 ```bash
+# Local execution
 php artisan test
+
+# Inside Docker container
+docker compose exec app php artisan test
+
 ```
-
----
-
-## 🔍 Key Implementation Highlights
-
-- **MVC Architecture** — Clean separation of concerns with dedicated controllers, models, and Blade views following Laravel conventions
-- **Eloquent ORM** — Relationships between users, posts, comments, and replies managed with Eloquent
-- **Role-Based Access** — Separate author and reader roles, with authors having write access to the post management dashboard
-- **Email Verification Flow** — Laravel's built-in `MustVerifyEmail` contract enforced before granting platform access
-- **Google OAuth Flow** — Socialite integration enables seamless one-click Google login without password overhead
-- **Threaded Comments** — Self-referential comment model supporting reply-to on both author and reader comments
-- **Rich Text Storage** — `tonysm/rich-text-laravel` stores Trix content safely, handling attachments and embedded media
-- **Queue-Ready** — Queue connection configured via database driver, ready to offload background jobs like verification emails
 
 ---
 
 ## 📄 License
 
-This project is open-sourced under the [MIT License](https://opensource.org/licenses/MIT).
-
----
-
-## 🙋 Author
-
-**Vishakha Chavan** — [github.com/vishch24](https://github.com/vishch24)
-
-> Built as a personal project to deepen understanding of the Laravel 11 ecosystem — from Breeze auth scaffolding, email verification, and Google OAuth via Socialite, to Trix-powered rich text, role-based access, and a threaded comment system.
+This project is licensed under the [MIT License](https://github.com/vishch24/procodeblogs?tab=MIT-1-ov-file).
