@@ -20,7 +20,6 @@ FROM php:8.3-fpm-alpine AS builder
 
 # Install build dependencies using Alpine's 'apk'
 # hadolint ignore=DL3018
-# hadolint ignore=SC2086
 RUN apk add --no-cache \
     curl \
     unzip \
@@ -31,6 +30,7 @@ RUN apk add --no-cache \
     icu-dev \
     libzip-dev \
     linux-headers \
+    # hadolint ignore=SC2086
     $PHPIZE_DEPS \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
@@ -40,6 +40,7 @@ RUN apk add --no-cache \
     soap \
     && pecl install redis \
     && docker-php-ext-enable redis \
+    # hadolint ignore=SC2086
     && apk del $PHPIZE_DEPS # Remove heavy build tools to save space
 
 WORKDIR /var/www
