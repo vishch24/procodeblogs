@@ -29,7 +29,7 @@ RUN apk add --no-cache \
     icu-dev=78.1-r0 \
     libzip-dev=1.11.4-r2 \
     linux-headers=7.2.1-r0 \
-    "$PHPIZE_DEPS" \
+    "${PHPIZE_DEPS}" \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
     intl \
@@ -38,7 +38,7 @@ RUN apk add --no-cache \
     soap \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apk del "$PHPIZE_DEPS" # Remove heavy build tools to save space
+    && apk del "${PHPIZE_DEPS}" # Remove heavy build tools to save space
 
 WORKDIR /var/www
 
