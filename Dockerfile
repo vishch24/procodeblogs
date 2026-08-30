@@ -18,27 +18,27 @@ RUN npm run build
 # ==========================================
 FROM php:8.3-fpm-alpine AS builder
 
-# Install system dependencies and PHP extensions for Laravel with MySQL support.
-# Dependencies in this stage are only required for building the final image.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    unzip \
-    libpq-dev \
-    libonig-dev \
-    libssl-dev \
-    libxml2-dev \
-    libcurl4-openssl-dev \
-    libicu-dev \
-    libzip-dev \
+# Install build dependencies using Alpine's 'apk'
+RUN apk add --no-cache \
+    curl=8.21.0-r0 \
+    unzip=6.0-r16 \
+    oniguruma-dev=6.0-r16 \
+    openssl-dev=3.5.8-r0 \
+    libxml2-dev=2.13.9-r2 \
+    curl-dev=8.21.0-r0 \
+    icu-dev=78.1-r0 \
+    libzip-dev=1.11.4-r2 \
+    linux-headers=7.2.1-r0 \
+    "$PHPIZE_DEPS" \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
     intl \
-    zip \
+    zip=3.0-r13 \
     bcmath \
     soap \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && apk del "$PHPIZE_DEPS" # Remove heavy build tools to save space
 
 WORKDIR /var/www
 
@@ -57,15 +57,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # ==========================================
 FROM php:8.3-fpm-alpine AS production
 
-# Install only runtime libraries needed in production
-# libfcgi-bin and procps are required for the php-fpm-healthcheck script
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev \
-    libicu-dev \
-    libzip-dev \
-    libfcgi-bin \
-    procps \
-    && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Install ONLY the runtime libraries needed for the compiled extensions
+RUN apk add --no-cache \
+    icu-libs=78.1-r0 \
+    libzip=1.11.4-r2 \
+    fcgi=2.4.6-r0 \
+    procps=3.3.17-r1 
 
 # Health check script for PHP-FPM
 RUN curl -o /usr/local/bin/php-fpm-healthcheck \
