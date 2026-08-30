@@ -20,20 +20,20 @@ FROM php:8.3-fpm-alpine AS builder
 
 # Install build dependencies using Alpine's 'apk'
 RUN apk add --no-cache \
-    curl \
-    unzip \
-    oniguruma-dev \
-    openssl-dev \
-    libxml2-dev \
-    curl-dev \
-    icu-dev \
-    libzip-dev \
-    linux-headers \
+    curl=8.21.0-r0 \
+    unzip=6.0-r16 \
+    oniguruma-dev=6.0-r16 \
+    openssl-dev=3.5.8-r0 \
+    libxml2-dev=2.13.9-r2 \
+    curl-dev=8.21.0-r0 \
+    icu-dev=78.1-r0 \
+    libzip-dev=1.11.4-r2 \
+    linux-headers=7.2.1-r0 \
     $PHPIZE_DEPS \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
     intl \
-    zip \
+    zip=3.0-r13 \
     bcmath \
     soap \
     && pecl install redis \
