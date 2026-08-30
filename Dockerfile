@@ -29,7 +29,7 @@ RUN apk add --no-cache \
     icu-dev=78.1-r0 \
     libzip-dev=1.11.4-r2 \
     linux-headers=7.2.1-r0 \
-    $PHPIZE_DEPS \
+    "$PHPIZE_DEPS" \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
     intl \
@@ -38,12 +38,15 @@ RUN apk add --no-cache \
     soap \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apk del $PHPIZE_DEPS # Remove heavy build tools to save space
+    && apk del "$PHPIZE_DEPS" # Remove heavy build tools to save space
 
 WORKDIR /var/www
 
 # Copy app code
 COPY . /var/www
+
+# Fixes DL4006 by ensuring piped command errors fail the build
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Install Composer dependencies without dev tools
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -56,10 +59,10 @@ FROM php:8.3-fpm-alpine AS production
 
 # Install ONLY the runtime libraries needed for the compiled extensions
 RUN apk add --no-cache \
-    icu-libs \
-    libzip \
-    fcgi \
-    procps
+    icu-libs=78.1-r0 \
+    libzip=1.11.4-r2 \
+    fcgi=2.4.6-r0 \
+    procps=3.3.17-r1 
 
 # Health check script for PHP-FPM
 RUN curl -o /usr/local/bin/php-fpm-healthcheck \
