@@ -19,7 +19,8 @@ RUN npm run build
 FROM php:8.3-fpm-alpine AS builder
 
 # Install build dependencies using Alpine's 'apk'
-# hadolint ignore=DL3018,SC2046
+# hadolint ignore=DL3018
+# hadolint ignore=SC2086
 RUN apk add --no-cache \
     curl \
     unzip \
@@ -59,7 +60,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 FROM php:8.3-fpm-alpine AS production
 
 # Install ONLY the runtime libraries needed for the compiled extensions
-# hadolint ignore=DL3018,SC2046
+# hadolint ignore=DL3018
 RUN apk add --no-cache \
     icu-libs \
     libzip \
