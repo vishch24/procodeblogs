@@ -19,8 +19,7 @@ RUN npm run build
 FROM php:8.3-fpm-alpine AS builder
 
 # Install build dependencies using Alpine's 'apk'
-RUN apk add --no-cache \
-    curl=8.21.0-r0 \
+RUN apk add --no-cache curl=8.21.0-r0 \
     unzip=6.0-r16 \
     oniguruma-dev=6.0-r16 \
     openssl-dev=3.5.8-r0 \
