@@ -29,7 +29,7 @@ jobs:
       - name: Docker Build and Push
         uses: docker/build-push-action@v7
         with:
-          context: ./${{ matrix.include.folder }}
+          context: ./${{ matrix.folder }}
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.include.name }}:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:latest
                 
