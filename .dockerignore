@@ -1,21 +1,45 @@
-# Version control
-.git
-.gitignore
+# Include any files or directories that you don't want to be copied to your
+# container here (e.g., local build artifacts, temporary files, etc.).
+#
+# For more help, visit the .dockerignore file reference guide at
+# https://docs.docker.com/go/build-context-dockerignore/
 
-# Dependencies (Docker will install its own)
-/vendor/
-/node_modules/
-npm-debug.log
-yarn-error.log
-.Dockerfile.swp
-
-# Environment variables & secrets (Pass these at runtime)
-.env
-.env.backup
-.env.production
-.env.local
-*.pem
-*.key
+**/.classpath
+**/.dockerignore
+**/.env
+**/.env.*
+**/.git
+**/.gitignore
+**/.gitattributes
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+**/.idea
+**/.next
+**/.cache
+**/*.*proj.user
+**/*.dbmdl
+**/*.jfm
+**/charts
+**/*.y*ml
+**/*.yml
+!**/composer.json
+!**/composer.lock
+**/Dockerfile*
+**/*.log
+**/obj
+**/vendor
+**/node_modules
+**/*.swp
+**/*.swo
+**/.DS_Store
+**/.editorconfig
+**/LICENSE
+**/README.md
+**/*.pem
+**/*.key
 
 # Compiled frontend assets (Docker builds these in Stage 1)
 /public/build/
@@ -35,19 +59,13 @@ yarn-error.log
 /storage/framework/testing/*
 !/storage/framework/testing/.gitignore
 
-# IDEs and local editor files
-.idea/
-.vscode/
-*.swp
-*.swo
-.DS_Store
-
-# Docker files
-Dockerfile
-.dockerignore
-docker-compose.yml
-docker-compose.*.yml
-
 # Database dumps
-*.sql
-db.sql
+**/*.sql
+**/*.dump
+
+# Ignore development-related files and directories
+# For development environment, we will use mount bind to mount the source code to the container
+# So we don't need to copy the source code to the container for development
+**/tests/
+**/phpunit.xml
+**/phpunit.xml.dist
