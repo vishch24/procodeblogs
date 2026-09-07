@@ -24,7 +24,3 @@ yarn-error.log
 *.sql
 db.sql
 .Dockerfile.swp
-storage/framework/cache/data/*
-storage/framework/sessions/*
-storage/framework/views/*
-storage/logs/*
