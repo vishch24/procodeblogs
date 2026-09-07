@@ -5,7 +5,7 @@ FROM php:8.3-fpm-alpine AS builder
 
 # Install system dependencies and PHP extensions for Laravel with MySQL support.
 # Dependencies in this stage are only required for building the final image.
-# hadolint ignore=DL3008,SC2046
+# hadolint ignore=DL3018,SC2046
 RUN apk update && apk add --no-cache \
     curl \
     unzip \
@@ -37,7 +37,7 @@ WORKDIR /var/www
 COPY . /var/www
 
 # Fixes DL4006 by ensuring piped command errors fail the build
-SHELL ["/bin/sh", "-o", "pipefail", "-c"]
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Install Composer and dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -49,7 +49,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 FROM php:8.3-fpm-alpine AS production
 
 # Install only runtime libraries needed in production
-# hadolint ignore=DL3008
+# hadolint ignore=DL3018
 RUN apk update && apk upgrade --no-cache && apk add --no-cache \
     postgresql-libs \
     icu-libs \
