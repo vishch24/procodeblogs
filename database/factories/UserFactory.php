@@ -26,12 +26,12 @@ class UserFactory extends Factory
     {
         return [
             'google_id' => null,
-            'name' => fake()->name(),
+            'name' => $this->faker->name(),
             'img' => null,
-            'email' => fake()->unique()->safeEmail(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'description' => fake()->sentence(),
+            'description' => $this->faker->sentence(),
             'x_twitter' => null,
             'facebook' => null,
             'instagram' => null,
