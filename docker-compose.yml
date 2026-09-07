@@ -1,50 +1,49 @@
-name: procodeblogs-app
-
 services:
   web:
-    image: nginx:alpine
-    ports:
-      - "80:80"
+    build:
+      context: ./docker/nginx/
+    restart: always
     volumes:
-      # 1. Mount the Nginx config file
-      - ./conf/nginx/nginx-site.conf:/etc/nginx/conf.d/default.conf:ro
-      # 2. Share the public folder so Nginx can serve static assets (CSS/JS)
-      - public-data:/var/www/public:ro
+      # Mount the 'laravel-storage' volume to '/var/www/storage' inside the container.
+      # -----------------------------------------------------------
+      # This volume stores persistent data like uploaded files and cache.
+      # The ':ro' option mounts it as read-only in the 'web' service because Nginx only needs to read these files.
+      # The 'php-fpm' service mounts the same volume without ':ro' to allow write operations.
+      # -----------------------------------------------------------
+      - procodeblogs-storage:/var/www/storage:ro
     networks:
       - procodeblogs-network
-    restart: always
+    ports:
+      # Map port 80 inside the container to the port specified by 'NGINX_PORT' on the host machine.
+      # -----------------------------------------------------------
+      # This allows external access to the Nginx web server running inside the container.
+      # For example, if 'NGINX_PORT' is set to '8080', accessing 'http://localhost:8080' will reach the application.
+      # -----------------------------------------------------------
+      - "${NGINX_PORT:-80}:80"
     depends_on:
       php-fpm:
         condition: service_healthy # Wait for php-fpm health check
 
   php-fpm:
+    # For the php-fpm service, we will create a custom image to install the necessary PHP extensions and setup proper permissions.
     build:
-      context: .
-      dockerfile: ./Dockerfile
+      context: ./docker/php-fpm/
       target: production # Use the 'production' stage in the Dockerfile
-    env_file: .env
-    environment:
-      # Pass database credentials from environment variables
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
+    restart: always
     volumes:
-      - procodeblogs-storage:/var/www/storage
-      # Mount the volume here so Docker copies the built files into it for Nginx
-      - public-data:/var/www/public
+      - procodeblogs-storage:/var/www/storage # Mount the storage volume
+    env_file:
+      - .env
     networks:
       - procodeblogs-network
-    restart: always
     healthcheck:
       test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 3
+    # The 'depends_on' attribute with 'condition: service_healthy' ensures that
+    # this service will not start until the 'mysql' service passes its health check.
+    # This prevents the application from trying to connect to the database before it's ready.
     depends_on:
       mysql:
         condition: service_healthy
@@ -59,8 +58,12 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "3306:3306"
+    # Health check for MySQL
+    # -----------------------------------------------------------
+    # Health checks allow Docker to determine if a service is operational.
+    # The 'mysqladmin ping' command checks if MySQL is ready to accept connections.
+    # This prevents dependent services from starting before the database is ready.
+    # -----------------------------------------------------------
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
       interval: 10s
@@ -69,25 +72,34 @@ services:
       start_period: 30s
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      # - ./db.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - procodeblogs-network
 
   redis:
     image: redis:alpine
-    restart: always # Automatically restart unless the service is explicitly stopped
+    restart: unless-stopped # Automatically restart unless the service is explicitly stopped
     networks:
       - procodeblogs-network
+    # Health check for Redis
+    # -----------------------------------------------------------
+    # Checks if Redis is responding to the 'PING' command.
+    # This ensures that the service is not only running but also operational.
+    # -----------------------------------------------------------
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 3
 
+networks:
+  # Attach the service to the 'procodeblogs-network' network.
+  # -----------------------------------------------------------
+  # This custom network allows all services within it to communicate using their service names as hostnames.
+  # For example, 'php-fpm' can connect to 'mysql' by using 'mysql' as the hostname.
+  # -----------------------------------------------------------
+  procodeblogs-network:
+
 volumes:
   procodeblogs-storage:
-  public-data:
   mysql-data:
-
-networks:
-  procodeblogs-network:
