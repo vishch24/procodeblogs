@@ -19,7 +19,7 @@ WORKDIR /var/www
 COPY . /var/www
 
 # Install Node.js dependencies and build assets
-RUN npm ci && npm run build
+RUN npm install && npm run build
 
 # ====================================================
 # Stage 2: Nginx production image
