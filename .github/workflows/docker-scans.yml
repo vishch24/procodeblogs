@@ -28,13 +28,13 @@ jobs:
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             - name: Docker Build ${{ matrix.folders}}
-              run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs-${{ matrix.folders}}:latest .
+              run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs/${{ matrix.folders}}:latest .
 
             - name: Run Trivy vulnerability scanner
               uses: aquasecurity/trivy-action@v0.36.0
               continue-on-error: true
               with:
-                image-ref: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs-${{ matrix.folders }}:latest
+                image-ref: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs/${{ matrix.folders }}:latest
                 format: 'table'
                 exit-code: '1'
                 ignore-unfixed: true
