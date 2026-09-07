@@ -19,7 +19,7 @@ class BlogsFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence(6),
+            'name' => $this->faker->name(),
             'slug' => $this->faker->slug(),
             'post_meta' => $this->faker->sentence(6),
             'post_desc' => $this->faker->paragraphs(3, true),
