@@ -8,6 +8,10 @@ jobs:
   build-and-push:
     # Github runner
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folders: ['backend','frontend']
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7
@@ -21,7 +25,7 @@ jobs:
       - name: Docker Build and Push
         uses: docker/build-push-action@v7
         with:
-          context: .
+          context: ./${{ matrix.folders}}
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs//${{ matrix.folders}}:latest
                 
