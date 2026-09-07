@@ -1,10 +1,11 @@
 # ====================================================
 # Stage 1: Build assets
 # ====================================================
+# hadolint ignore=DL3006
 FROM debian AS builder
 
 # Install Node.js and build tools
-# hadolint ignore=DL3006
+# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     nodejs \
