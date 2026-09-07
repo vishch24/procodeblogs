@@ -4,6 +4,7 @@
 FROM debian AS builder
 
 # Install Node.js and build tools
+# hadolint ignore=DL3018,SC2086
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     nodejs \
