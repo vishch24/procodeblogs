@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        folders: ['backend','frontend']
+        folders: ['docker/nginx','docker/php-fpm']
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7
