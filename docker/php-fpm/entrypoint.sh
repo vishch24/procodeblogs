@@ -21,7 +21,7 @@ rm -rf /var/www/storage-init
 # -----------------------------------------------------------
 
 echo "Running migrations..."
-php artisan migrate --seed --force   # --force is required because this is a production environment
+php artisan migrate --force   # --force is required because this is a production environment
 
 # Clear and cache configurations
 # -----------------------------------------------------------
