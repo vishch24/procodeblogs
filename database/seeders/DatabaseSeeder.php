@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         // 3. Create 20 Blogs
         Blogs::factory(20)->create([
             'user_id' => $testUser->id,
-        ])->each(function ($blog) use ($categories, $tags) {
+        ])->each(function ($blog) use ($categories, $tags, $testUser) {
             // Attach random Categories and Tags to populate pivot tables
             $blog->categories()->attach($categories->random(rand(1, 2))->pluck('id')->toArray());
             $blog->tags()->attach($tags->random(rand(2, 4))->pluck('id')->toArray());
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
             ]);
 
             // 5. STEP B: Generate Nested Level-1 Replies (Children of root comments)
-            $rootComments->each(function ($rootComment) use ($blog) {
+            $rootComments->each(function ($rootComment) use ($blog, $testUser) {
                 // Generate 2 replies for EACH root comment
                 $replies = Comments::factory(2)->create([
                     'blog_id' => $blog->id,
@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
                 ]);
 
                 // 6. STEP C (Optional): Deep Nesting Level-2 Replies (Replies to the replies)
-                $replies->each(function ($reply) use ($blog) {
+                $replies->each(function ($reply) use ($blog, $testUser) {
                     Comments::factory(1)->create([
                         'blog_id' => $blog->id,
                         'parent_id' => $reply->id, // Hooked up to Level-1 reply ID
