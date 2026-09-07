@@ -35,7 +35,7 @@ WORKDIR /var/www
 COPY . /var/www
 
 # Fixes DL4006 by ensuring piped command errors fail the build
-SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install Composer and dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
