@@ -5,7 +5,7 @@ FROM php:8.3-fpm AS builder
 
 # Install system dependencies and PHP extensions for Laravel with MySQL support.
 # Dependencies in this stage are only required for building the final image.
-# hadolint ignore=DL3018,SC2086
+# hadolint ignore=DL3008,SC2046
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     unzip \
@@ -45,7 +45,7 @@ FROM php:8.3-fpm AS production
 
 # Install only runtime libraries needed in production
 # libfcgi-bin and procps are required for the php-fpm-healthcheck script
-# hadolint ignore=DL3018
+# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     libicu-dev \
