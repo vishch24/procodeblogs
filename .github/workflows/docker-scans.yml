@@ -20,10 +20,10 @@ jobs:
             - name: Code Checkout
               uses: actions/checkout@v7
 
-            - name: ProCodeBlogs ${{ matrix.include.folder }}/Dockerfile Lint
+            - name: ProCodeBlogs docker/${{ matrix.include.name }}/Dockerfile Lint
               uses: hadolint/hadolint-action@v3.1.0
               with:
-                dockerfile: ${{ matrix.include.folder }}/Dockerfile
+                dockerfile: ./${{ matrix.include.folder }}/Dockerfile
               
             - name: Docker Setup [Login]
               uses: docker/login-action@v4
@@ -31,7 +31,7 @@ jobs:
                 username: ${{ vars.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-            - name: Docker Build ${{ matrix.include.folder }}
+            - name: Docker Build docker/${{ matrix.include.name }}
               run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.include.name }}:latest .
 
             - name: Run Trivy vulnerability scanner
