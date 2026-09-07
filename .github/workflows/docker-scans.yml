@@ -32,7 +32,10 @@ jobs:
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             - name: Docker Build docker/${{ matrix.name }}
-              run: docker build -t ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:latest ./${{ matrix.folder }}
+              run: |
+                docker build \
+                  -t ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:latest \
+                  -f ./${{ matrix.folder }}/Dockerfile .
 
             - name: Run Trivy vulnerability scanner
               uses: aquasecurity/trivy-action@v0.36.0
