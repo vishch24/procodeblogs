@@ -28,6 +28,9 @@ RUN npm run build
 # ====================================================
 FROM nginx:alpine
 
+# Upgrade packages to pull in patched versions
+RUN apk update && apk upgrade --no-cache
+
 # Copy custom Nginx configuration
 # -----------------------------------------------------------
 # Replace the default Nginx configuration with our custom one

@@ -1,21 +1,24 @@
 # ====================================================
 # Stage 1: Build environment and Composer dependencies
 # ====================================================
-FROM php:8.3-fpm AS builder
+FROM php:8.3-fpm-alpine AS builder
 
 # Install system dependencies and PHP extensions for Laravel with MySQL support.
 # Dependencies in this stage are only required for building the final image.
 # hadolint ignore=DL3008,SC2046
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apk update && apk add --no-cache \
     curl \
     unzip \
-    libpq-dev \
-    libonig-dev \
-    libssl-dev \
+    postgresql-dev \
+    oniguruma-dev \
+    openssl-dev \
     libxml2-dev \
-    libcurl4-openssl-dev \
-    libicu-dev \
+    curl-dev \
+    icu-dev \
     libzip-dev \
+    linux-headers \
+    build-base \
+    autoconf
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
     pdo_pgsql \
@@ -25,8 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bcmath \
     soap \
     && pecl install redis \
-    && docker-php-ext-enable redis \
-    && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && docker-php-ext-enable redis
 
 # Set the working directory inside the container
 WORKDIR /var/www
@@ -35,7 +37,7 @@ WORKDIR /var/www
 COPY . /var/www
 
 # Fixes DL4006 by ensuring piped command errors fail the build
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+SHELL ["/bin/sh", "-o", "pipefail", "-c"]
 
 # Install Composer and dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -44,18 +46,15 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # ==========================================
 # Stage 2: Production environment
 # ==========================================
-FROM php:8.3-fpm AS production
+FROM php:8.3-fpm-alpine AS production
 
 # Install only runtime libraries needed in production
-# libfcgi-bin and procps are required for the php-fpm-healthcheck script
 # hadolint ignore=DL3008
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev \
-    libicu-dev \
-    libzip-dev \
-    libfcgi-bin \
-    procps \
-    && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apk update && apk upgrade --no-cache && apk add --no-cache \
+    postgresql-libs \
+    icu-libs \
+    libzip \
+    fcgi
 
 # Download and install php-fpm health check script
 RUN curl -o /usr/local/bin/php-fpm-healthcheck \
