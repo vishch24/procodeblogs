@@ -34,6 +34,9 @@ WORKDIR /var/www
 # Copy the entire Laravel application code into the container AFTER dependencies are cached
 COPY . /var/www
 
+# Fixes DL4006 by ensuring piped command errors fail the build
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+
 # Install Composer and dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && composer install --no-dev --optimize-autoloader --no-interaction --no-progress --prefer-dist
@@ -79,9 +82,6 @@ COPY ./docker/php-fpm/conf.d/*.conf /usr/local/etc/php-fpm.d/
 
 # Copy the application code and dependencies from the build stage
 COPY --from=builder /var/www /var/www
-
-# Copy compiled frontend assets from the Node stage
-COPY --from=frontend-builder /var/www/public/build /var/www/public/build
 
 # Set working directory
 WORKDIR /var/www
