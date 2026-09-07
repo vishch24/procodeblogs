@@ -18,7 +18,7 @@ RUN apk update && apk add --no-cache \
     libzip-dev \
     linux-headers \
     build-base \
-    autoconf
+    autoconf \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
     pdo_pgsql \
