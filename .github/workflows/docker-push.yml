@@ -31,5 +31,5 @@ jobs:
         with:
           context: ./${{ matrix.include.folder }}
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.include.folder }}:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.include.name }}:latest
                 
