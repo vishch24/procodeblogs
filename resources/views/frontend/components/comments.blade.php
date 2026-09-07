@@ -2,7 +2,7 @@
     <!-- Single comment-->
     <div class="d-flex mb-4">
         <div class="flex-grow-0 flex-shrink-0">
-            @if ($comment->if_author == 'yes')
+            @if ($comment->if_author == 'yes' && $comment->user)
                 @if ($comment->user->img)
                     @if ($comment->user->google_id)
                         <img class="img-fluid" src="{{ $comment->user->img }}" width="50"
