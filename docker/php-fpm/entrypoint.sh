@@ -20,6 +20,13 @@ rm -rf /var/www/storage-init
 # Ensure the database schema is up to date.
 # -----------------------------------------------------------
 
+echo "Waiting for MySQL to be ready..."
+# Keep looping until a connection to the mysql service on port 3306 can be opened
+while ! nc -z mysql 3306; do
+  sleep 1
+done
+echo "MySQL is up! Running database tasks..."
+
 echo "Running migrations..."
 php artisan migrate --force   # --force is required because this is a production environment
 
