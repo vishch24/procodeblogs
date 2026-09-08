@@ -11,26 +11,14 @@
         @php
             // $name;
         @endphp
-        @foreach ($results as $result)
-            @if ($result instanceof App\Models\Blogs)
-                @php
-                    $blogs = $result instanceof App\Models\Blogs;
-                @endphp
-            @elseif ($result instanceof App\Models\Categories)
-                @php
-                    $categories = $result instanceof App\Models\Categories;
-                @endphp
-            @elseif ($result instanceof App\Models\Tags)
-                @php
-                    $tags = $result instanceof App\Models\Tags;
-                @endphp
-            @endif
-        @endforeach
+        $hasBlogs = $results->contains(fn($r) => $r instanceof App\Models\Blogs);
+        $hasCategories = $results->contains(fn($r) => $r instanceof App\Models\Categories);
+        $hasTags = $results->contains(fn($r) => $r instanceof App\Models\Tags);
 
         @if ($results->isEmpty())
             <p>No results found.</p>
         @else
-            @if (isset($blogs))
+            @if ($hasBlogs)
                 <div class="row gy-4 mb-4">
                     <h3 class="fw-bold">Blogs</h3>
                     @foreach ($results as $result)
@@ -42,7 +30,7 @@
                                     </a>
                                     <div class="card-body p-4">
                                         <div class="small text-muted mb-2">
-                                            <span class="me-2"><i class="bi bi-person"></i> {{ $result->user->name }}</span>
+                                            <span class="me-2"><i class="bi bi-person"></i> {{ $result->user?->name ?? 'Unknown' }}</span>
                                             <span class="me-2"><i class="bi bi-clock"></i> {{ date('M d, Y', strtotime($result->updated_at)) }}</span>
                                             <span><i class="bi bi-chat-dots"></i> {{ $result->comments->count() }} Comment(s)</span>
                                         </div>
@@ -57,7 +45,7 @@
                 </div>
             @endif
 
-            @if (isset($categories))
+            @if ($hasCategories)
                 <div class="row gy-4 mb-4">
                     <h3 class="fw-bold">Categories</h3>
                     <div class="col-12">
@@ -73,7 +61,7 @@
 
             @endif
 
-            @if (isset($tags))
+            @if ($hasTags)
                 <div class="row gy-4">
                     <h3 class="fw-bold">Tags</h3>
                     <div class="col-12">

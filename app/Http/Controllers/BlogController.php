@@ -165,7 +165,7 @@ class BlogController extends Controller
         $category = Categories::findOrFail($id);
 
         // Paginate the blogs associated with this category
-        $blogs = $category->blogs()->paginate(6);  // Adjust the number 6 as per your requirements
+        $blogs = $category->blogs()->with(['user', 'comments'])->paginate(6);  // Adjust the number 6 as per your requirements
 
         return view('frontend.category-single', [
             // 'pageName' => 'home',
@@ -194,7 +194,11 @@ class BlogController extends Controller
         $query = $request->input('query'); // Get the search query from the request
         // dd($query);
         // Search in the User model
-        $blogs = Blogs::where('name', 'LIKE', "%$query%")->get();
+        // $blogs = Blogs::with(['user', 'comments'])->where('name', 'LIKE', "%$query%")->get();
+        $blogs = Blogs::with(['user', 'comments'])
+            ->where('name', 'LIKE', '?')
+            ->setBindings(["%{$query}%"])
+            ->get();
         // Search in the Post model
         $categories = Categories::where('name', 'LIKE', "%$query%")->get();
         // Search in the User model

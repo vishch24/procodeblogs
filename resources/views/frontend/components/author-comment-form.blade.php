@@ -2,7 +2,7 @@
     <div class="card-body p-4">
         <div class="mb-3">
             @php
-                if ($singleBlog->user->img) {
+                if ($singleBlog->user && $singleBlog->user->img) {
                     if ($singleBlog->user->google_id) {
                         $img = $singleBlog->user->img;
                     } else {
@@ -15,13 +15,13 @@
             <span class="h4">Comment as </span>
             <img src="{{ $img }}" class="img-fluid rounded-circle align-top"
                 width="30" alt="{{ $img }}" />
-            <span class="small">{{ Auth::user()->name }}</span>
+            <span class="small">{{ $singleBlog->user?->name ?? 'Unknown' }}</span>
         </div>
         <form action="{{ route('comments.store', [$singleBlog->id, $singleBlog->slug]) }}" method="POST" class="mb-4">
             @csrf
             <input type="hidden" name="parent_id" value="">
-            <input type="hidden" name="name" value="{{ Auth::user()->name }}" required />
-            <input type="hidden" name="email" value="{{ Auth::user()->email }}" required />
+            <input type="hidden" name="name" value="{{ $singleBlog->user?->name ?? 'Unknown' }}" required />
+            <input type="hidden" name="email" value="{{ $singleBlog->user?->email ?? 'Unknown' }}" required />
             <div class="form-floating mb-3">
                 <textarea class="form-control h-auto shadow-sm" rows="4" id="floatMsg" name="description"
                     placeholder="Enter Message" required></textarea>

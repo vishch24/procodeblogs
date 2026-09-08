@@ -21,7 +21,7 @@
                                     </a>
                                     <div class="card-body p-4">
                                         <div class="small text-muted mb-2">
-                                            <span class="me-2"><i class="bi bi-person"></i> {{ $blog->user->name }}</span>
+                                            <span class="me-2"><i class="bi bi-person"></i> {{ $blog->user?->name ?? 'Unknown' }}</span>
                                             <span class="me-2"><i class="bi bi-clock"></i> {{ date('M d, Y', strtotime($blog->updated_at)) }}</span>
                                             <span><i class="bi bi-chat-dots"></i> {{ $blog->comments->count() }} Comment(s)</span>
                                         </div>

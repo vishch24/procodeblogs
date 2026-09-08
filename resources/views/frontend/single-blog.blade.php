@@ -15,7 +15,7 @@
                     <div class="card-body px-4 py-4 px-lg-5 post-content">
                         <!-- Post meta content-->
                         <div class="text-secondary mb-4">
-                            <span class="me-3"><i class="bi bi-person"></i> {{ $singleBlog->user->name }}</span>
+                            <span class="me-3"><i class="bi bi-person"></i> {{ $singleBlog->user?->name ?? 'Unknown' }}</span>
                             <span class="me-3"><i class="bi bi-clock"></i>
                                 {{ date('F d, Y', strtotime($singleBlog->updated_at)) }}</span>
                             <span><i class="bi bi-chat-dots"></i> {{ $singleBlog->comments->count() }} Comment(s)</span>

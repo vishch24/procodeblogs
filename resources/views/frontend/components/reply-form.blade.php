@@ -12,7 +12,7 @@
                     <div class="col-12">
                         <div class="">
                             @php
-                                if ($singleBlog->user->img) {
+                                if ($singleBlog->user && $singleBlog->user->img) {
                                     if ($singleBlog->user->google_id) {
                                         $img = $singleBlog->user->img;
                                     } else {
@@ -25,7 +25,7 @@
                             <span class="h6">Comment as </span>
                             <img src="{{ $img }}"
                                 class="img-fluid rounded-circle align-top" width="20" alt="{{ $img }}" />
-                            <span class="small">{{ Auth::user()->name }}</span>
+                            <span class="small">{{ $singleBlog->user?->name ?? 'Unknown' }}</span>
                         </div>
                     </div>
                 @else
