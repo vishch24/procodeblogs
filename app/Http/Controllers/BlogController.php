@@ -31,10 +31,13 @@ class BlogController extends Controller
         // Get the current page (default to 1)
         $currentPage = $request->query('page', 1);
 
-        $featuredBlog = Blogs::orderBy('updated_at', 'desc')->first();
+        // $featuredBlog = Blogs::orderBy('updated_at', 'desc')->first();
+
+        // Only fetch featured blog if we're on page 1
+        $featuredBlog = ($currentPage == 1) ? Blogs::orderBy('updated_at', 'desc')->first() : null;
 
         // If there are no blogs at all
-        if (! $featuredBlog) {
+        if ($currentPage == 1 && !$featuredBlog) {
             return view('frontend.index', [
                 'pageName' => 'home',
                 'sideRecentPosts' => 0,
