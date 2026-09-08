@@ -1,7 +1,8 @@
 services:
   web:
     build:
-      context: ./docker/nginx/
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
     restart: always
     volumes:
       # Mount the 'laravel-storage' volume to '/var/www/storage' inside the container.
@@ -11,6 +12,7 @@ services:
       # The 'php-fpm' service mounts the same volume without ':ro' to allow write operations.
       # -----------------------------------------------------------
       - procodeblogs-storage:/var/www/storage:ro
+      - procodeblogs-assets:/var/www/public/assets:ro # Mount assets folder as read-only for Nginx
     networks:
       - procodeblogs-network
     ports:
@@ -27,11 +29,13 @@ services:
   php-fpm:
     # For the php-fpm service, we will create a custom image to install the necessary PHP extensions and setup proper permissions.
     build:
-      context: ./docker/php-fpm/
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
       target: production # Use the 'production' stage in the Dockerfile
     restart: always
     volumes:
       - procodeblogs-storage:/var/www/storage # Mount the storage volume
+      - procodeblogs-assets:/var/www/public/assets # Mount assets folder for PHP to write images
     env_file:
       - .env
     networks:
@@ -72,7 +76,7 @@ services:
       start_period: 30s
     volumes:
       - mysql-data:/var/lib/mysql
-      # - ./db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./db.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - procodeblogs-network
 
@@ -102,4 +106,5 @@ networks:
 
 volumes:
   procodeblogs-storage:
+  procodeblogs-assets:
   mysql-data:
