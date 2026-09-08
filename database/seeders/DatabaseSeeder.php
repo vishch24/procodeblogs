@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
                 'parent_id' => null, // Explicitly root
                 'approved' => 'yes',
                 'user_id' => null,
+                'if_author' => 'no', // Ensure root comments are not authored by the blog author
             ]);
 
             // 5. STEP B: Generate Nested Level-1 Replies (Children of root comments)
@@ -60,6 +61,7 @@ class DatabaseSeeder extends Seeder
                     'parent_id' => $rootComment->id, // Hooked up to parent comment ID
                     'approved' => 'yes',
                     'user_id' => null,
+                    'if_author' => 'no', // Ensure replies are not authored by the blog author
                 ]);
 
                 // 6. STEP C (Optional): Deep Nesting Level-2 Replies (Replies to the replies)
@@ -69,6 +71,7 @@ class DatabaseSeeder extends Seeder
                         'parent_id' => $reply->id, // Hooked up to Level-1 reply ID
                         'approved' => 'yes',
                         'user_id' => $testUser->id,
+                        'if_author' => 'yes', // Ensure Level-2 replies are authored by the blog author
                     ]);
                 });
             });
