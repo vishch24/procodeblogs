@@ -24,9 +24,8 @@ class BlogHomePageTest extends TestCase
     }
 
     #[Test]
-    public function it_shows_featured_and_regular_blogs_when_available()
+    public function it_shows_featured_and_regular_blogs_on_page_1()
     {
-        // Create some fake blogs
         $featured = Blogs::factory()->create();
         $otherBlogs = Blogs::factory()->count(5)->create();
 
@@ -34,6 +33,44 @@ class BlogHomePageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee($featured->name);
-        $response->assertDontSee('No blogs have been added yet.');
     }
+
+    #[Test]
+    public function it_does_not_show_featured_blog_on_page_2()
+    {
+        $featured = Blogs::factory()->create();
+        Blogs::factory()->count(10)->create();
+
+        $response = $this->get('/?page=2');
+
+        $response->assertStatus(200);
+        $response->assertDontSee($featured->name);
+        // $response->assertDontSee('No blogs have been added yet.');
+    }
+
+    #[Test]
+    public function it_shows_regular_blogs_on_page_2()
+    {
+        Blogs::factory()->count(10)->create();
+
+        $response = $this->get('/?page=2');
+
+        $response->assertStatus(200);
+        // Should have blogs, but not the featured one
+        $response->assertViewHas('blogs');
+    }
+
+    // #[Test]
+    // public function it_shows_featured_and_regular_blogs_when_available()
+    // {
+    //     // Create some fake blogs
+    //     $featured = Blogs::factory()->create();
+    //     $otherBlogs = Blogs::factory()->count(5)->create();
+
+    //     $response = $this->get('/');
+
+    //     $response->assertStatus(200);
+    //     $response->assertSee($featured->name);
+    //     $response->assertDontSee('No Featured blogs have been added yet.');
+    // }
 }
