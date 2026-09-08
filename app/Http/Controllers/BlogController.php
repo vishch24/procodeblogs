@@ -37,7 +37,7 @@ class BlogController extends Controller
         $featuredBlog = ($currentPage == 1) ? Blogs::orderBy('updated_at', 'desc')->first() : null;
 
         // If there are no blogs at all
-        if ($currentPage == 1 && !$featuredBlog) {
+        if ($currentPage == 1 && ! $featuredBlog) {
             return view('frontend.index', [
                 'pageName' => 'home',
                 'sideRecentPosts' => 0,
