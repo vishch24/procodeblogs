@@ -31,13 +31,14 @@ class BlogController extends Controller
         // Get the current page (default to 1)
         $currentPage = $request->query('page', 1);
 
-        // $featuredBlog = Blogs::orderBy('updated_at', 'desc')->first();
+        // Always get the featured blog for pagination purposes
+        $featuredBlogForPagination = Blogs::orderBy('updated_at', 'desc')->first();
 
-        // Only fetch featured blog if we're on page 1
-        $featuredBlog = ($currentPage == 1) ? Blogs::orderBy('updated_at', 'desc')->first() : null;
+        // Only display featured blog on page 1
+        $featuredBlog = ($currentPage == 1) ? $featuredBlogForPagination : null;
 
         // If there are no blogs at all
-        if ($currentPage == 1 && ! $featuredBlog) {
+        if ($currentPage == 1 && ! $featuredBlogForPagination) {
             return view('frontend.index', [
                 'pageName' => 'home',
                 'sideRecentPosts' => 0,
@@ -51,22 +52,14 @@ class BlogController extends Controller
         }
 
         // Get total blogs count
-        $totalBlogs = Blogs::count();
-
-        // If there's a featured blog, exclude it from the total count (only for pagination calculation)
-        if ($featuredBlog) {
-            $totalBlogs--;
-        }
+        $totalBlogs = Blogs::count() - 1; // Exclude the featured blog from the total count for pagination
 
         // if ($totalBlogs) {
         // Set per-page limits
         $perPage = ($currentPage == 1) ? 4 : 6;
 
         // Fetch blogs query, ordered by latest update
-        $blogsQuery = Blogs::orderBy('updated_at', 'desc');
-        if ($featuredBlog) {
-            $blogsQuery->where('id', '!=', $featuredBlog->id);
-        }
+        $blogsQuery = Blogs::where('id', '!=', $featuredBlogForPagination->id)->orderBy('updated_at', 'desc');
 
         // **Fix Offset Calculation**
         if ($currentPage == 1) {
