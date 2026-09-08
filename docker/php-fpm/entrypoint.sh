@@ -34,8 +34,10 @@ php artisan config:cache
 echo "Caching routes..."
 php artisan route:cache
 
-# Run the default command
+echo "Publishing vendor assets..."
+php artisan vendor:publish --tag=rich-text-laravel-assets --force
 
+# Run the default command
 echo "Starting php-fpm..."
 exec "$@" # 'exec' replaces this script's process with php-fpm, instead of running it as a child
                     # — this matters so Docker's stop/restart signals reach php-fpm directly
