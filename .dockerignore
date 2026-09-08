@@ -37,7 +37,7 @@
 **/.DS_Store
 **/.editorconfig
 **/LICENSE
-**/README.md
+**/*.md
 **/*.pem
 **/*.key
 
