@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             $testUser = User::factory()->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
-                'password' => bcrypt('password'),
+                // 'password' => bcrypt('password'),
             ]);
         }
 
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         // Blogs::factory(20)->create();
 
         // 3. Create 20 Blogs
-        Blogs::factory(20)->create([
+        Blogs::factory(6)->create([
             'user_id' => $testUser->id,
         ])->each(function ($blog) use ($categories, $tags, $testUser) {
             // Attach random Categories and Tags to populate pivot tables
