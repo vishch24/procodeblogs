@@ -21,13 +21,15 @@ class CommentsFactory extends Factory
     {
         return [
             'blog_id' => Blogs::factory(), // creates a related blog automatically
-            'if_author' => $this->faker->randomElement(['yes', 'no']),
+            // 'if_author' => $this->faker->randomElement(['yes', 'no']),
+            'if_author' => 'yes',
             'parent_id' => null,
             'user_id' => User::factory(),  // creates a related user automatically
-            'name' => $this->faker->sentence(6),
-            'email' => $this->faker->email(),
-            'description' => $this->faker->sentence(10),
-            'approved' => $this->faker->randomElement(['yes', 'no']),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'description' => $this->faker->realText(200),
+            // 'approved' => $this->faker->randomElement(['yes', 'no']),
+            'approved' => 'yes',
         ];
     }
 }
