@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Blogs;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -20,57 +21,83 @@ class BlogHomePageTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+        $response->assertViewHas('featuredBlog', null);
+        $response->assertViewHas('totalPages', 0);
         $response->assertSee('No blogs have been added yet.');
     }
 
     #[Test]
-    public function it_shows_featured_and_regular_blogs_on_page_1()
+    public function it_shows_featured_and_up_to_four_regular_blogs_on_page_1()
     {
-        $featured = Blogs::factory()->create();
-        $otherBlogs = Blogs::factory()->count(5)->create();
+        // Ensure featured has the latest updated_at
+        $featured = Blogs::factory()->create([
+            'name' => 'Featured Blog Title',
+            'updated_at' => Carbon::now(),
+        ]);
+
+        // Regular blogs created in the past
+        $regularBlogs = Blogs::factory()->count(5)->sequence(fn ($sequence) => [
+            'updated_at' => Carbon::now()->subMinutes($sequence->index + 1),
+        ])->create();
 
         $response = $this->get('/');
 
         $response->assertStatus(200);
+        $response->assertViewHas('featuredBlog', function ($blog) use ($featured) {
+            return $blog && $blog->id === $featured->id;
+        });
+
+        // Page 1 should take exactly 4 regular blogs
+        $response->assertViewHas('blogs', function ($blogs) {
+            return $blogs->count() === 4;
+        });
+
         $response->assertSee($featured->name);
     }
 
     #[Test]
     public function it_does_not_show_featured_blog_on_page_2()
     {
-        $featured = Blogs::factory()->create();
-        Blogs::factory()->count(10)->create();
+        // Explicitly set the latest updated_at so this is definitively the featured post
+        $featured = Blogs::factory()->create([
+            'name' => 'Featured Unique Title',
+            'updated_at' => Carbon::now(),
+        ]);
+
+        // Create 10 regular blogs dated before the featured one
+        Blogs::factory()->count(10)->sequence(fn ($sequence) => [
+            'name' => 'Regular Blog ' . $sequence->index,
+            'updated_at' => Carbon::now()->subHours($sequence->index + 1),
+        ])->create();
 
         $response = $this->get('/?page=2');
 
         $response->assertStatus(200);
+        $response->assertViewHas('featuredBlog', null);
+        $response->assertViewHas('currentPage', 2);
+        
+        // Page 2 perPage limit is 6
+        $response->assertViewHas('blogs', function ($blogs) use ($featured) {
+            return $blogs->count() === 6 && ! $blogs->contains('id', $featured->id);
+        });
+
         $response->assertDontSee($featured->name);
         // $response->assertDontSee('No blogs have been added yet.');
     }
 
     #[Test]
-    public function it_shows_regular_blogs_on_page_2()
+    public function it_calculates_correct_total_pages()
     {
-        Blogs::factory()->count(10)->create();
+        // 1 featured + 10 regular = 11 total
+        // Page 1 takes 4 regular, remaining = 6 regular -> exactly 1 extra page (totalPages = 2)
+        Blogs::factory()->create(['updated_at' => Carbon::now()]);
+        Blogs::factory()->count(10)->sequence(fn ($sequence) => [
+            'updated_at' => Carbon::now()->subMinutes($sequence->index + 1),
+        ])->create();
 
-        $response = $this->get('/?page=2');
+        $response = $this->get('/');
 
         $response->assertStatus(200);
-        // Should have blogs, but not the featured one
-        $response->assertViewHas('blogs');
+        $response->assertViewHas('totalPages', 2);
     }
-
-    // #[Test]
-    // public function it_shows_featured_and_regular_blogs_when_available()
-    // {
-    //     // Create some fake blogs
-    //     $featured = Blogs::factory()->create();
-    //     $otherBlogs = Blogs::factory()->count(5)->create();
-
-    //     $response = $this->get('/');
-
-    //     $response->assertStatus(200);
-    //     $response->assertSee($featured->name);
-    //     $response->assertDontSee('No Featured blogs have been added yet.');
-    // }
 }
