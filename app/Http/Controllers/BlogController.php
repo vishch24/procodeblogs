@@ -63,7 +63,10 @@ class BlogController extends Controller
         $perPage = ($currentPage == 1) ? 4 : 6;
 
         // Fetch blogs query, ordered by latest update
-        $blogsQuery = Blogs::where('id', '!=', $featuredBlog->id)->orderBy('updated_at', 'desc');
+        $blogsQuery = Blogs::orderBy('updated_at', 'desc');
+        if ($featuredBlog) {
+            $blogsQuery->where('id', '!=', $featuredBlog->id);
+        }
 
         // **Fix Offset Calculation**
         if ($currentPage == 1) {
