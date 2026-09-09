@@ -16,6 +16,6 @@
         </div>
     </div>
     @else
-        <p class="text-muted">No Featured blogs have been added yet.</p>
+        <p class="text-muted">No blogs have been added yet.</p>
     @endif
 @endif
