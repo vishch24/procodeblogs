@@ -1,6 +1,6 @@
 <!-- Nested row for non-featured blog posts-->
 <div class="row gy-4 mb-5">
-    @if ($blogs && $blog->user)
+    @if ($blogs)
         @foreach ($blogs as $blog)
         <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
             <!-- Blog post-->
