@@ -34,13 +34,13 @@ jobs:
             - name: Docker Build docker/${{ matrix.name }}
               run: |
                 docker build \
-                  -t ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:latest \
+                  -t ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:${{ github.sha }} \
                   -f ./${{ matrix.folder }}/Dockerfile .
 
             - name: Run Trivy vulnerability scanner
               uses: aquasecurity/trivy-action@v0.36.0
               with:
-                image-ref: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:latest
+                image-ref: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:${{ github.sha }}
                 format: 'table'
                 exit-code: '0'
                 ignore-unfixed: true

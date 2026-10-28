@@ -32,5 +32,5 @@ jobs:
           context: .
           file: ./${{ matrix.folder }}/Dockerfile
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/procodeblogs_${{ matrix.name }}:${{ github.sha }}
                 
