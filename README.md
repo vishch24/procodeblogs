@@ -26,7 +26,7 @@ A **Laravel 12** blogging platform, used as a hands-on **DevSecOps** project: co
 
 ## 📊 Architecture
 
-<img src="https://github.com/vishch24/procodeblogs/tree/main/pics/procodeblogs-architecture-diagram.png" width="100%">
+<img src="https://github.com/vishch24/procodeblogs/blob/main/pics/procodeblogs-architecture-diagram.png" width="100%">
 
 Nginx serves compiled frontend assets and forwards `.php` requests to `php-fpm:9000`. Config lives in `docker/nginx/nginx.conf`.
 
